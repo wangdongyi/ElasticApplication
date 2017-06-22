@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wdy_elastic_main_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/wdy_round_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/wdy_elastic_content_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/wdy_elastic_imageView"
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/wdy_elastic_imageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/wdy_oval_image"
+        android:contentDescription="@string/rightBtn"
+        android:scaleType="centerInside"
+        android:src="@drawable/wdy_elastic_add"
+        tools:ignore="RtlHardcoded" />
+</RelativeLayout>
