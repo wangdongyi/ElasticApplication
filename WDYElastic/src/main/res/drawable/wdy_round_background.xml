@@ -4,9 +4,9 @@
         <shape>
             <solid android:color="@color/wdy_elastic_background" />
 
-            <stroke
-                android:width="0.5dp"
-                android:color="@android:color/white" />
+            <!--<stroke-->
+                <!--android:width="0.5dp"-->
+                <!--android:color="@android:color/white" />-->
             <corners android:radius="100dip" />
         </shape>
     </item>

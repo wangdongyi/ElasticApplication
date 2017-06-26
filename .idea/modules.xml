@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ElasticApplication.iml" filepath="$PROJECT_DIR$/ElasticApplication.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WDYElastic/WDYelastic.iml" filepath="$PROJECT_DIR$/WDYElastic/WDYelastic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WDYElastic/WDYElastic.iml" filepath="$PROJECT_DIR$/WDYElastic/WDYElastic.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
