@@ -1,12 +1,13 @@
 # 弹力布局。
+[![](https://jitpack.io/v/wangdongyi/ElasticApplication.svg)](https://jitpack.io/#wangdongyi/ElasticApplication)
 ![image](https://github.com/wangdongyi/ElasticApplication/blob/master/app/src/main/assets/readme.gif)
 
 <br/>可以中心，左侧，右侧收起展开布局。继承RelativeLayout。
 # 自定义两个属性  
 ```Java
-<br/>app:imageButtonBackground="@mipmap/ic_launcher"布局的背景
-<br/>app:imageButtonGravity="center"收缩后的位置
-<br/> getBtnImageView()可以获得点击按钮，可以自定义。
+app:imageButtonBackground="@mipmap/ic_launcher"布局的背景
+app:imageButtonGravity="center"收缩后的位置
+getBtnImageView()可以获得点击按钮，可以自定义。
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
