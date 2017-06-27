@@ -1,5 +1,5 @@
 # 弹力布局。
-![default](https://cloud.githubusercontent.com/ElasticApplication/app/src/main/assets/readme.gif)
+![image](https://github.com/wangdongyi/ElasticApplication/app/src/main/assets/readme.gif)
 
 <br/>可以中心，左侧，右侧收起展开布局。继承RelativeLayout。
 # 自定义两个属性  
