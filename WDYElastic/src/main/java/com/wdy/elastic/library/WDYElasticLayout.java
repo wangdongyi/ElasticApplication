@@ -1,13 +1,9 @@
 package com.wdy.elastic.library;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.os.Build;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +11,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -33,10 +27,14 @@ public class WDYElasticLayout extends RelativeLayout {
     private ImageView wdy_elastic_imageView;
     private Animation animationOpen;
     private Animation animationClose;
-    boolean isShowView;
+    private Animation animationDown;
+    private Animation animationUp;
+    private boolean isShowView;
     private int width = 0;
+    private int height = 0;
     private int imageButtonBackground;
     private int imageButtonGravity = 2;
+    private boolean isPlaying = false;
 
     public WDYElasticLayout(Context context) {
         super(context);
@@ -92,6 +90,7 @@ public class WDYElasticLayout extends RelativeLayout {
                     View view = getChildAt(i);
                     removeView(view);
                     wdy_elastic_content_layout.addView(view);
+                    i--;
                 }
             }
         }
@@ -121,9 +120,6 @@ public class WDYElasticLayout extends RelativeLayout {
         if (imageButtonBackground != 0) {
             wdy_elastic_main_layout.setBackgroundResource(imageButtonBackground);
         }
-        Log.i(TAG, "wdy_elastic_content_layout:" + wdy_elastic_content_layout.getId() +
-                "\nwdy_elastic_main_layout" + 0 +
-                "\nwdy_elastic_imageView" + wdy_elastic_imageView.getId());
         ViewTreeObserver vto2 = wdy_elastic_main_layout.getViewTreeObserver();
         vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -131,45 +127,122 @@ public class WDYElasticLayout extends RelativeLayout {
             public void onGlobalLayout() {
                 wdy_elastic_main_layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 width = wdy_elastic_main_layout.getMeasuredWidth();
+                height = wdy_elastic_main_layout.getMeasuredHeight();
+                initAnimation();
             }
         });
         wdy_elastic_imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "点击了");
                 stretchAnimation();
                 addZoomAnimation(view);
             }
         });
     }
 
-    private void stretchAnimation() {
+    //开始动画
+    public void stretchAnimation() {
+        if (isPlaying) {
+            return;
+        }
         wdy_elastic_main_layout.clearAnimation();
         if (isShowView) {
             isShowView = false;
-            if (animationClose == null) {
-                animationClose = new DropTransverseAnim(wdy_elastic_main_layout, width, true, dip2px(50));
-                animationClose.setDuration(200); // SUPPRESS CHECKSTYLE
-            }
-            wdy_elastic_content_layout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    wdy_elastic_content_layout.setVisibility(VISIBLE);
-                }
-            }, 100);
             wdy_elastic_main_layout.startAnimation(animationClose);
+            isPlaying = true;
         } else {
             isShowView = true;
-            if (animationOpen == null) {
-                animationOpen = new DropTransverseAnim(wdy_elastic_main_layout, width, false, dip2px(50));
-                animationOpen.setDuration(200); // SUPPRESS CHECKSTYLE
-            }
-            wdy_elastic_content_layout.setVisibility(GONE);
             wdy_elastic_main_layout.startAnimation(animationOpen);
+            isPlaying = true;
         }
     }
 
-    public static void addZoomAnimation(View view) {
+    private void initAnimation() {
+        if (animationUp == null) {
+            animationUp = new DropDownAnim(wdy_elastic_main_layout, height - dip2px(50), dip2px(50), true);
+            animationUp.setDuration(200); // SUPPRESS CHECKSTYLE
+            animationUp.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    isPlaying = false;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        if (animationClose == null) {
+            animationClose = new DropTransverseAnim(wdy_elastic_main_layout, width, true, dip2px(50));
+            animationClose.setDuration(200); // SUPPRESS CHECKSTYLE
+            animationClose.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    wdy_elastic_content_layout.setVisibility(VISIBLE);
+                    wdy_elastic_main_layout.startAnimation(animationUp);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        if (animationDown == null) {
+            animationDown = new DropDownAnim(wdy_elastic_main_layout, height - dip2px(50), dip2px(50), false);
+            animationDown.setDuration(200); // SUPPRESS CHECKSTYLE
+            animationDown.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    isPlaying = false;
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        if (animationOpen == null) {
+            animationOpen = new DropTransverseAnim(wdy_elastic_main_layout, width, false, dip2px(50));
+            animationOpen.setDuration(200); // SUPPRESS CHECKSTYLE
+            animationOpen.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    wdy_elastic_content_layout.setVisibility(GONE);
+                    wdy_elastic_main_layout.startAnimation(animationDown);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+    }
+
+    public void addZoomAnimation(View view) {
         RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotateAnimation.setDuration(150);
         rotateAnimation.setFillAfter(false);

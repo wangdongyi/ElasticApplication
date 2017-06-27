@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
     <color name="wdy_elastic_add">#ffffff</color>
-    <color name="wdy_elastic_background">#887ddd</color>
-    <color name="wdy_elastic_image_background">#887ddd</color>
+    <color name="wdy_elastic_background">#FFF6A9</color>
+    <color name="wdy_elastic_image_background">#E4CBFD</color>
 
 </resources>
