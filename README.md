@@ -1,4 +1,6 @@
 # 弹力布局。
+![default](https://cloud.githubusercontent.com/ElasticApplication/app/src/main/assets/readme.gif)
+
 <br/>可以中心，左侧，右侧收起展开布局。继承RelativeLayout。
 # 自定义两个属性  
 <br/>app:imageButtonBackground="@mipmap/ic_launcher"布局的背景
