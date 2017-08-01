@@ -10,9 +10,11 @@
 
     <com.wdy.elastic.library.WDYElasticLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:layout_margin="10dp"
-        app:imageButtonGravity="center">
+        app:imageButtonBackground="@drawable/wdy"
+        app:imageButtonIcon="@mipmap/you"
+        app:imageButtonGravity="right">
 
         <LinearLayout
             android:layout_width="match_parent"

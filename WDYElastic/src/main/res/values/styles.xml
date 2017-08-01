@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="WDYElasticLayout">
         <attr name="imageButtonBackground" format="reference" />
+        <attr name="imageButtonIcon" format="reference" />
         <attr name="layoutBackground" format="reference" />
 
         <attr name="imageButtonGravity">

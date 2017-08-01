@@ -12,6 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 /**
@@ -33,8 +34,15 @@ public class WDYElasticLayout extends RelativeLayout {
     private int width = 0;
     private int height = 0;
     private int imageButtonBackground;
+    private int imageButtonIcon;
+    private int layoutBackground;
     private int imageButtonGravity = 2;
     private boolean isPlaying = false;
+    private int miniWidth = 0;
+
+    public boolean isOpen() {
+        return isShowView;
+    }
 
     public WDYElasticLayout(Context context) {
         super(context);
@@ -63,7 +71,9 @@ public class WDYElasticLayout extends RelativeLayout {
             return;
         }
         try {
-            imageButtonBackground = attr.getResourceId(R.styleable.WDYElasticLayout_imageButtonBackground, R.drawable.wdy_round_background);
+            imageButtonBackground = attr.getResourceId(R.styleable.WDYElasticLayout_imageButtonBackground, R.drawable.wdy_oval_image);
+            imageButtonIcon = attr.getResourceId(R.styleable.WDYElasticLayout_imageButtonIcon, R.drawable.wdy_elastic_add);
+            layoutBackground = attr.getResourceId(R.styleable.WDYElasticLayout_layoutBackground, R.drawable.wdy_round_background);
             imageButtonGravity = attr.getInt(R.styleable.WDYElasticLayout_imageButtonGravity, 2);
         } finally {
             attr.recycle();
@@ -117,11 +127,30 @@ public class WDYElasticLayout extends RelativeLayout {
                 break;
         }
         wdy_elastic_main_layout.setLayoutParams(params);
-        if (imageButtonBackground != 0) {
-            wdy_elastic_main_layout.setBackgroundResource(imageButtonBackground);
+        if (layoutBackground != 0) {
+            wdy_elastic_main_layout.setBackgroundResource(layoutBackground);
         }
-        ViewTreeObserver vto2 = wdy_elastic_main_layout.getViewTreeObserver();
+        if (imageButtonBackground != 0) {
+            wdy_elastic_imageView.setBackgroundResource(imageButtonBackground);
+        }
+        if (imageButtonIcon != 0) {
+            wdy_elastic_imageView.setImageResource(imageButtonIcon);
+        }
+        ViewTreeObserver vto2 = wdy_elastic_imageView.getViewTreeObserver();
         vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onGlobalLayout() {
+                wdy_elastic_imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                int height = wdy_elastic_imageView.getMeasuredHeight();
+                RelativeLayout.LayoutParams params = (LayoutParams) wdy_elastic_imageView.getLayoutParams();
+                params.width = height;
+                miniWidth = height;
+                wdy_elastic_imageView.setLayoutParams(params);
+            }
+        });
+        ViewTreeObserver vto1 = wdy_elastic_main_layout.getViewTreeObserver();
+        vto1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onGlobalLayout() {
@@ -131,9 +160,9 @@ public class WDYElasticLayout extends RelativeLayout {
                 initAnimation();
             }
         });
-        wdy_elastic_imageView.setOnClickListener(new OnClickListener() {
+        wdy_elastic_imageView.setOnClickListener(new NoDoubleClickListener() {
             @Override
-            public void onClick(View view) {
+            protected void onNoDoubleClick(View view) {
                 stretchAnimation();
                 addZoomAnimation(view);
             }
@@ -243,11 +272,19 @@ public class WDYElasticLayout extends RelativeLayout {
     }
 
     public void addZoomAnimation(View view) {
-        RotateAnimation rotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotateAnimation.setDuration(150);
-        rotateAnimation.setFillAfter(false);
-        view.setAnimation(rotateAnimation);
-        view.startAnimation(rotateAnimation);
+        if (isShowView) {
+            RotateAnimation rotateAnimation = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnimation.setDuration(150);
+            rotateAnimation.setFillAfter(true);
+            view.setAnimation(rotateAnimation);
+            view.startAnimation(rotateAnimation);
+        } else {
+            RotateAnimation rotateAnimation = new RotateAnimation(180, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnimation.setDuration(150);
+            rotateAnimation.setFillAfter(true);
+            view.setAnimation(rotateAnimation);
+            view.startAnimation(rotateAnimation);
+        }
     }
 
     public ImageView getBtnImageView() {
