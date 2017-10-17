@@ -13,8 +13,8 @@
         android:layout_height="50dp"
         android:layout_margin="10dp"
         app:imageButtonBackground="@drawable/wdy"
-        app:imageButtonIcon="@mipmap/you"
-        app:imageButtonGravity="right">
+        app:imageButtonGravity="right"
+        app:imageButtonIcon="@mipmap/you">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/ttt"
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="这是一个测试布局"
